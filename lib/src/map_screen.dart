@@ -156,8 +156,14 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   List<Marker> _labels() {
+    final camera = _mapReady ? _mapController.camera : null;
+    final placed = <Rect>[];
     final markers = <Marker>[];
-    for (final f in _levelFeatures) {
+
+    final features = List.of(_levelFeatures)
+      ..sort((a, b) => _featureArea(b).compareTo(_featureArea(a)));
+
+    for (final f in features) {
       final geometry = f.geometry;
       if (geometry == null) continue;
       final center = geometryCenter(geometry);
@@ -167,8 +173,30 @@ class _MapScreenState extends State<MapScreen> {
               (f['Ward_Num']?.toString() ?? '?'))
           : (f['name'] as String? ?? '');
       if (label.isEmpty) continue;
+
+      final size = _labelSize(label);
+      Rect? screen;
+      if (camera != null) {
+        try {
+          final p = camera.latLngToScreenPoint(center);
+          screen = Rect.fromCenter(
+            center: Offset(p.x.toDouble(), p.y.toDouble()),
+            width: size.width,
+            height: size.height,
+          ).inflate(3);
+        } catch (_) {
+          screen = null;
+        }
+      }
+      if (screen != null) {
+        if (placed.any(screen.overlaps)) continue;
+        placed.add(screen);
+      }
+
       markers.add(Marker(
         point: center,
+        width: size.width,
+        height: size.height,
         alignment: Alignment.center,
         rotate: false,
         child: IgnorePointer(
@@ -181,6 +209,40 @@ class _MapScreenState extends State<MapScreen> {
       ));
     }
     return markers;
+  }
+
+  /// Bounding-box area in degrees, used to prioritise larger features so
+  /// their labels win when labels collide.
+  double _featureArea(GeoFeature f) {
+    final g = f.geometry;
+    if (g == null) return 0;
+    final b = geometryBounds(g);
+    if (b == null) return 0;
+    return (b.east - b.west) * (b.north - b.south);
+  }
+
+  /// Measures a label the same way [_FeatureLabel] renders it, so collision
+  /// detection matches the on-screen box (2-line wrap, ellipsis).
+  Size _labelSize(String text) {
+    final isWard = _level == 3;
+    final painter = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: TextStyle(
+          fontSize: isWard ? 10 : 12,
+          fontWeight: FontWeight.w600,
+          color: Colors.black87,
+          height: 1.1,
+        ),
+      ),
+      maxLines: 2,
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: 170);
+    // Padding + border + margin slack so the marker's tight 30x30-style box
+    // never clips the rendered label.
+    final padH = (isWard ? 3 : 6) * 2.0 + 6;
+    final padV = (isWard ? 1 : 2) * 2.0 + 6;
+    return Size(painter.width + padH, painter.height + padV);
   }
 
   void _showMessage(String message) {
@@ -429,37 +491,34 @@ class _MapScreenState extends State<MapScreen> {
       context: context,
       showDragHandle: true,
       builder: (ctx) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(AppLocalizations.of(ctx)!.baseLayer,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                AppLocalizations.of(ctx)!.baseLayer,
+                style: Theme.of(ctx)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
-            ),
-            RadioGroup<String>(
-              groupValue: _baseLayer,
-              onChanged: (v) {
-                if (v == null) return;
-                Navigator.of(ctx).pop();
-                setState(() => _baseLayer = v);
-              },
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
+              const SizedBox(height: 16),
+              SegmentedButton<String>(
+                segments: [
                   for (final name in _baseLayers.keys)
-                    RadioListTile<String>(
-                      title: Text(name),
-                      value: name,
-                    ),
+                    ButtonSegment(value: name, label: Text(name)),
                 ],
+                selected: {_baseLayer},
+                showSelectedIcon: false,
+                onSelectionChanged: (selection) {
+                  Navigator.of(ctx).pop();
+                  setState(() => _baseLayer = selection.first);
+                },
               ),
-            ),
-            const SizedBox(height: 8),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -653,9 +712,21 @@ class _MapScreenState extends State<MapScreen> {
                 urlTemplate: _baseLayers[_baseLayer],
                 userAgentPackageName: 'com.tapaiko.ward',
               ),
-              PolygonLayer(polygons: _levelPolygons),
-              PolygonLayer(polygons: _highlightPolygons),
-              MarkerLayer(markers: _labels()),
+              TweenAnimationBuilder<double>(
+                key: ValueKey('level-$_level'),
+                tween: Tween(begin: 0, end: 1),
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeOutCubic,
+                builder: (context, value, child) =>
+                    Opacity(opacity: value, child: child),
+                child: Stack(
+                  children: [
+                    PolygonLayer(polygons: _levelPolygons),
+                    PolygonLayer(polygons: _highlightPolygons),
+                    MarkerLayer(markers: _labels()),
+                  ],
+                ),
+              ),
             ],
           ),
           if (_loading)
@@ -701,28 +772,39 @@ class _MapScreenState extends State<MapScreen> {
               label: Text(l10n.findMyWard),
             ),
           ),
-          if (_level > 0)
-            Positioned(
-              left: 16,
-              bottom: 24,
-              child: FloatingActionButton(
-                heroTag: 'back',
-                tooltip: l10n.goBack,
-                onPressed: () {
-                  setState(() {
-                    _level = 0;
-                    _province = null;
-                    _provinceShort = '';
-                    _districtName = '';
-                    _localLevelName = '';
-                    _localLevelDistrict = '';
-                    _status = l10n.tapAProvince;
-                  });
-                  _loadProvinces();
-                },
-                child: const Icon(Icons.arrow_back),
+          Positioned(
+            left: 16,
+            bottom: 24,
+            child: IgnorePointer(
+              ignoring: _level == 0,
+              child: AnimatedScale(
+                scale: _level > 0 ? 1 : 0,
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeOutBack,
+                child: AnimatedOpacity(
+                  opacity: _level > 0 ? 1 : 0,
+                  duration: const Duration(milliseconds: 250),
+                  child: FloatingActionButton(
+                    heroTag: 'back',
+                    tooltip: l10n.goBack,
+                    onPressed: () {
+                      setState(() {
+                        _level = 0;
+                        _province = null;
+                        _provinceShort = '';
+                        _districtName = '';
+                        _localLevelName = '';
+                        _localLevelDistrict = '';
+                        _status = l10n.tapAProvince;
+                      });
+                      _loadProvinces();
+                    },
+                    child: const Icon(Icons.arrow_back),
+                  ),
+                ),
               ),
             ),
+          ),
         ],
       ),
     );
@@ -810,7 +892,25 @@ class _StatusCard extends StatelessWidget {
                       style: theme.textTheme.labelSmall
                           ?.copyWith(color: theme.colorScheme.primary)),
                   const SizedBox(height: 2),
-                  Text(status, style: theme.textTheme.bodyMedium),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 250),
+                    transitionBuilder: (child, animation) =>
+                        FadeTransition(
+                      opacity: animation,
+                      child: SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0, 0.2),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: child,
+                      ),
+                    ),
+                    child: Text(
+                      status,
+                      key: ValueKey(status),
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -968,11 +1068,11 @@ class _CensusSummary extends StatelessWidget {
           const SizedBox(height: 8),
           _GenderBar(label: l10n.male, count: census.totalMale,
               total: census.totalPopulation,
-              color: const Color(0xFF2196F3)),
+              color: theme.colorScheme.primary),
           const SizedBox(height: 4),
           _GenderBar(label: l10n.female, count: census.totalFemale,
               total: census.totalPopulation,
-              color: const Color(0xFFE91E63)),
+              color: theme.colorScheme.tertiary),
         ],
       ),
     );
