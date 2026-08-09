@@ -27,10 +27,11 @@ class CensusData {
 /// Wraps the CBS census API (same endpoint the web app uses for the
 /// population chart).
 class CensusService {
-  CensusService(this._data);
+  CensusService(this._data, {http.Client? client})
+      : _client = client ?? http.Client();
 
   final DataService _data;
-  final http.Client _client = http.Client();
+  final http.Client _client;
 
   static const String _baseUrl =
       'https://censusapi.cbs.gov.np/api/v1/population/distribution/ward';

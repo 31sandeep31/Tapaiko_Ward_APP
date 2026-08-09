@@ -9,7 +9,9 @@ import 'models.dart';
 /// Fetches GeoJSON from the live site and caches responses (on-disk on
 /// Android/iOS, in-memory on web) so repeat lookups are fast and work offline.
 class DataService {
-  DataService({http.Client? client}) : _client = client ?? http.Client();
+  DataService({http.Client? client, DataCache? cache})
+      : _client = client ?? http.Client(),
+        _cache = cache ?? createCache();
 
   static const String baseUrl = 'https://maps.sandeepkafle.com.np/data/';
 
@@ -20,7 +22,7 @@ class DataService {
   };
 
   final http.Client _client;
-  final DataCache _cache = createCache();
+  final DataCache _cache;
   final Map<String, dynamic> _jsonCache = {};
 
   Future<Map<String, dynamic>> getJson(String path) async {

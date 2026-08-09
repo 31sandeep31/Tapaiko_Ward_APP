@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widget_previews.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+
+import '../l10n/app_localizations.dart';
 
 import 'census_service.dart';
 import 'data_service.dart';
@@ -429,12 +432,12 @@ class _MapScreenState extends State<MapScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(24, 8, 24, 8),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Base layer',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                child: Text(AppLocalizations.of(ctx)!.baseLayer,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
               ),
             ),
             RadioGroup<String>(
@@ -608,18 +611,19 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TAPAIKO WARD'),
+        title: Text(l10n.appTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.layers),
-            tooltip: 'Base layer',
+            tooltip: l10n.baseLayer,
             onPressed: _pickBaseLayer,
           ),
           IconButton(
             icon: const Icon(Icons.search),
-            tooltip: 'Search ward / municipality',
+            tooltip: l10n.searchWardTooltip,
             onPressed: _openSearch,
           ),
         ],
@@ -665,13 +669,13 @@ class _MapScreenState extends State<MapScreen> {
                   children: [
                     const Icon(Icons.cloud_off, size: 48),
                     const SizedBox(height: 12),
-                    const Text('Could not load map data'),
+                    Text(l10n.couldNotLoadMap),
                     const SizedBox(height: 8),
                     Text(_error!, textAlign: TextAlign.center),
                     const SizedBox(height: 16),
                     FilledButton(
                       onPressed: _loadProvinces,
-                      child: const Text('Retry'),
+                      child: Text(l10n.retry),
                     ),
                   ],
                 ),
@@ -694,7 +698,7 @@ class _MapScreenState extends State<MapScreen> {
             child: FloatingActionButton.extended(
               onPressed: _locating ? null : _findMyWard,
               icon: const Icon(Icons.my_location),
-              label: const Text('Find my ward'),
+              label: Text(l10n.findMyWard),
             ),
           ),
           if (_level > 0)
@@ -703,7 +707,7 @@ class _MapScreenState extends State<MapScreen> {
               bottom: 24,
               child: FloatingActionButton(
                 heroTag: 'back',
-                tooltip: 'Go back',
+                tooltip: l10n.goBack,
                 onPressed: () {
                   setState(() {
                     _level = 0;
@@ -712,7 +716,7 @@ class _MapScreenState extends State<MapScreen> {
                     _districtName = '';
                     _localLevelName = '';
                     _localLevelDistrict = '';
-                    _status = 'Tap a province to start.';
+                    _status = l10n.tapAProvince;
                   });
                   _loadProvinces();
                 },
@@ -852,8 +856,8 @@ class _WardNumbersSheet extends StatelessWidget {
               child: GridView.builder(
                 shrinkWrap: true,
                 gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 6,
+                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 56,
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 8,
                 ),
@@ -889,6 +893,7 @@ class _ResultSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
@@ -896,10 +901,10 @@ class _ResultSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('YOUR WARD', style: theme.textTheme.labelMedium),
+            Text(l10n.yourWard, style: theme.textTheme.labelMedium),
             const SizedBox(height: 4),
             Text(
-              'Ward ${result.wardNo}',
+              l10n.ward(result.wardNo),
               style: theme.textTheme.headlineLarge
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
@@ -909,12 +914,15 @@ class _ResultSheet extends StatelessWidget {
                 census: census!,
                 wardNo: int.tryParse(result.wardNo),
               ),
-            _InfoRow(icon: Icons.location_city, label: 'Municipality',
+            _InfoRow(icon: Icons.location_city, label: l10n.municipalityLabel,
                 value: result.municipality),
             if (result.type.isNotEmpty)
-              _InfoRow(icon: Icons.apartment, label: 'Type', value: result.type),
-            _InfoRow(icon: Icons.map, label: 'District', value: result.district),
-            _InfoRow(icon: Icons.flag, label: 'Province', value: result.province),
+              _InfoRow(icon: Icons.apartment, label: l10n.typeLabel,
+                  value: result.type),
+            _InfoRow(icon: Icons.map, label: l10n.districtLabel,
+                value: result.district),
+            _InfoRow(icon: Icons.flag, label: l10n.provinceLabel,
+                value: result.province),
           ],
         ),
       ),
@@ -931,6 +939,7 @@ class _CensusSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final wardPop =
         wardNo == null ? null : census.wardPopulation(wardNo!);
     return Container(
@@ -948,7 +957,7 @@ class _CensusSummary extends StatelessWidget {
             children: [
               Icon(Icons.groups, size: 18, color: theme.colorScheme.primary),
               const SizedBox(width: 8),
-              Text('Population (Census 2021)',
+              Text(l10n.population,
                   style: theme.textTheme.labelMedium),
               const Spacer(),
               Text(_fmt(wardPop ?? census.totalPopulation),
@@ -957,11 +966,11 @@ class _CensusSummary extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          _GenderBar(label: 'Male', count: census.totalMale,
+          _GenderBar(label: l10n.male, count: census.totalMale,
               total: census.totalPopulation,
               color: const Color(0xFF2196F3)),
           const SizedBox(height: 4),
-          _GenderBar(label: 'Female', count: census.totalFemale,
+          _GenderBar(label: l10n.female, count: census.totalFemale,
               total: census.totalPopulation,
               color: const Color(0xFFE91E63)),
         ],
@@ -1101,9 +1110,10 @@ class _MunicipalitySheet extends StatelessWidget {
                 style: theme.textTheme.labelMedium),
             const SizedBox(height: 8),
             if (wards.isEmpty)
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: Text('No ward boundaries loaded.'),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Text(
+                    AppLocalizations.of(context)!.noWardBoundaries),
               )
             else
               ConstrainedBox(
@@ -1128,3 +1138,36 @@ class _MunicipalitySheet extends StatelessWidget {
     );
   }
 }
+
+
+// ---- Widget previews (flutter widget-preview start) ----
+
+@Preview(name: 'Feature label - district', group: 'Map')
+Widget featureLabelPreview() => const _FeatureLabel(
+    text: 'Bhojpur', level: 1, color: Color(0xFF2196F3));
+
+@Preview(name: 'Feature label - ward', group: 'Map')
+Widget wardLabelPreview() =>
+    const _FeatureLabel(text: '5', level: 3, color: Color(0xFF4CAF50));
+
+@Preview(name: 'Status card', group: 'Map')
+Widget statusCardPreview() => const _StatusCard(
+    breadcrumb: 'Nepal � Koshi Pradesh � Bhojpur',
+    status: 'Tap a district in Koshi Pradesh.',
+    loading: true);
+
+@Preview(name: 'Census summary', group: 'Map')
+Widget censusSummaryPreview() => _CensusSummary(
+    census: CensusData(male: const [120, 210], female: const [135, 225]),
+    wardNo: 1);
+
+@Preview(name: 'Gender bar', group: 'Map')
+Widget genderBarPreview() =>
+    const _GenderBar(label: 'Male', count: 330, total: 690, color: Color(0xFF2196F3));
+
+@Preview(name: 'Ward numbers sheet', group: 'Map')
+Widget wardNumbersPreview() => _WardNumbersSheet(
+    municipalityName: 'Hatuwagadhi',
+    districtName: 'Bhojpur',
+    wardNos: const ['1', '2', '3', '4', '5'],
+    onPick: (index) {});

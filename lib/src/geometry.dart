@@ -26,17 +26,13 @@ bool pointInRing(LatLng point, List<dynamic> ring) {
 
 /// Point-in-polygon against a GeoJSON geometry (Polygon or MultiPolygon).
 bool pointInGeometry(LatLng point, Map<String, dynamic> geometry) {
-  final type = geometry['type'];
   final coords = geometry['coordinates'] as List<dynamic>;
-  if (type == 'Polygon') {
-    return _pointInPolygonRings(coords, point);
-  }
-  if (type == 'MultiPolygon') {
-    for (final polygon in coords) {
-      if (_pointInPolygonRings(polygon as List<dynamic>, point)) return true;
-    }
-  }
-  return false;
+  return switch (geometry['type']) {
+    'Polygon' => _pointInPolygonRings(coords, point),
+    'MultiPolygon' => coords.any((polygon) =>
+        _pointInPolygonRings(polygon as List<dynamic>, point)),
+    _ => false,
+  };
 }
 
 bool _pointInPolygonRings(List<dynamic> rings, LatLng point) {

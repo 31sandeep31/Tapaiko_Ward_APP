@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'l10n/app_localizations.dart';
 import 'src/map_screen.dart';
 
 void main() {
@@ -14,6 +16,18 @@ class TapaikoWardApp extends StatelessWidget {
     return MaterialApp(
       title: 'TAPAIKO WARD',
       debugShowCheckedModeBanner: false,
+      onGenerateTitle: (context) =>
+          AppLocalizations.of(context)!.appTitle,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ne'),
+      ],
       theme: ThemeData(
         colorSchemeSeed: const Color(0xFF003893),
         useMaterial3: true,

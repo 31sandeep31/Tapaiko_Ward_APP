@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import 'data_service.dart';
 import 'models.dart';
 import 'municipality_service.dart';
@@ -91,49 +92,55 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Search municipality / ward')),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: TextField(
-              onChanged: (v) {
-                _query = v;
-                _applyFilter();
-              },
-              decoration: InputDecoration(
-                hintText: 'Search name, district, or province…',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+      appBar: AppBar(title: Text(l10n.searchMunicipalityTitle)),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 640),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: TextField(
+                  onChanged: (v) {
+                    _query = v;
+                    _applyFilter();
+                  },
+                  decoration: InputDecoration(
+                    hintText: l10n.searchHint,
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    suffixIcon: _query.isEmpty
+                        ? null
+                        : IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              _query = '';
+                              _applyFilter();
+                            },
+                          ),
+                  ),
                 ),
-                suffixIcon: _query.isEmpty
-                    ? null
-                    : IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _query = '';
-                          _applyFilter();
-                        },
-                      ),
               ),
-            ),
+              if (_types.isNotEmpty)
+                SizedBox(
+                  height: 44,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    children: [
+                      _chip(null, l10n.allTypes),
+                      for (final t in _types) _chip(t, t),
+                    ],
+                  ),
+                ),
+              Expanded(child: _buildBody()),
+            ],
           ),
-          if (_types.isNotEmpty)
-            SizedBox(
-              height: 44,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                children: [
-                  _chip(null, 'All'),
-                  for (final t in _types) _chip(t, t),
-                ],
-              ),
-            ),
-          Expanded(child: _buildBody()),
-        ],
+        ),
       ),
     );
   }
@@ -164,7 +171,7 @@ class _SearchScreenState extends State<SearchScreen> {
             children: [
               const Icon(Icons.cloud_off, size: 48),
               const SizedBox(height: 12),
-              const Text('Could not load municipalities'),
+              Text(AppLocalizations.of(context)!.couldNotLoadMunicipalities),
               const SizedBox(height: 8),
               Text(_error!, textAlign: TextAlign.center),
             ],
@@ -173,7 +180,9 @@ class _SearchScreenState extends State<SearchScreen> {
       );
     }
     if (_visible.isEmpty) {
-      return const Center(child: Text('No matching municipalities.'));
+      return Center(
+          child: Text(AppLocalizations.of(context)!
+              .noMatchingMunicipalities));
     }
     return ListView.builder(
       itemCount: _visible.length,
@@ -191,10 +200,10 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  IconData _typeIcon(String type) {
-    if (type.contains('Mahanagarpalika')) return Icons.location_city;
-    if (type.contains('Upamahanagarpalika')) return Icons.location_city;
-    if (type.contains('Nagarpalika')) return Icons.apartment;
-    return Icons.home_work;
-  }
+  IconData _typeIcon(String type) => switch (type) {
+        _ when type.contains('Mahanagarpalika') => Icons.location_city,
+        _ when type.contains('Upamahanagarpalika') => Icons.location_city,
+        _ when type.contains('Nagarpalika') => Icons.apartment,
+        _ => Icons.home_work,
+      };
 }

@@ -12,6 +12,9 @@ class GeoCollection {
       list.map((e) => GeoFeature.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
+
+  Map<String, dynamic> toJson() =>
+      {'features': features.map((f) => f.toJson()).toList()};
 }
 
 class GeoFeature {
@@ -26,6 +29,11 @@ class GeoFeature {
       geometry: json['geometry'] as Map<String, dynamic>?,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        if (geometry != null) 'geometry': geometry,
+        'properties': properties,
+      };
 
   Object? operator [](String key) => properties[key];
 }
@@ -60,6 +68,16 @@ class Municipality {
       municipalityCode: (json['MUNICIPALITY_CODE'] as num?)?.toInt() ?? 0,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'STATE_CODE': stateCode,
+        'DISTRICT': district,
+        'GaPa_NaPa': gaPaNaPa,
+        'Type_GN': typeGn,
+        'Province': province,
+        'DISTRICT_CODE': districtCode,
+        'MUNICIPALITY_CODE': municipalityCode,
+      };
 }
 
 class WardResult {

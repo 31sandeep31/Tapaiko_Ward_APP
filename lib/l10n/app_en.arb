@@ -1,0 +1,35 @@
+{
+  "@@locale": "en",
+  "appTitle": "TAPAIKO WARD",
+  "searchMunicipalityTitle": "Search municipality / ward",
+  "searchHint": "Search name, district, or province…",
+  "allTypes": "All",
+  "noMatchingMunicipalities": "No matching municipalities.",
+  "couldNotLoadMunicipalities": "Could not load municipalities",
+  "tapAProvince": "Tap a province to start.",
+  "baseLayer": "Base layer",
+  "findMyWard": "Find my ward",
+  "goBack": "Go back",
+  "searchWardTooltip": "Search ward / municipality",
+  "yourWard": "YOUR WARD",
+  "ward": "Ward {wardNo}",
+  "@ward": {
+    "description": "Ward number label in the result sheet",
+    "placeholders": {
+      "wardNo": {
+        "type": "String",
+        "example": "5"
+      }
+    }
+  },
+  "population": "Population (Census 2021)",
+  "male": "Male",
+  "female": "Female",
+  "municipalityLabel": "Municipality",
+  "typeLabel": "Type",
+  "districtLabel": "District",
+  "provinceLabel": "Province",
+  "couldNotLoadMap": "Could not load map data",
+  "retry": "Retry",
+  "noWardBoundaries": "No ward boundaries loaded."
+}
