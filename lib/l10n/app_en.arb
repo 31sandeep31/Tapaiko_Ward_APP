@@ -9,6 +9,8 @@
   "tapAProvince": "Tap a province to start.",
   "baseLayer": "Base layer",
   "findMyWard": "Find my ward",
+  "identifyingLocation": "Identifying this location…",
+  "longPressHint": "Tap to browse. Long-press anywhere to identify the ward, municipality, district and province.",
   "goBack": "Go back",
   "searchWardTooltip": "Search ward / municipality",
   "yourWard": "YOUR WARD",

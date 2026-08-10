@@ -148,6 +148,18 @@ abstract class AppLocalizations {
   /// **'Find my ward'**
   String get findMyWard;
 
+  /// No description provided for @identifyingLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Identifying this location…'**
+  String get identifyingLocation;
+
+  /// No description provided for @longPressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to browse. Long-press anywhere to identify the ward, municipality, district and province.'**
+  String get longPressHint;
+
   /// No description provided for @goBack.
   ///
   /// In en, this message translates to:

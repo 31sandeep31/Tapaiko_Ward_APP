@@ -54,6 +54,7 @@ class _MapScreenState extends State<MapScreen> {
   String? _error;
   bool _locating = false;
   String _status = '';
+  LatLng? _pinPoint;
 
   @override
   void initState() {
@@ -83,7 +84,8 @@ class _MapScreenState extends State<MapScreen> {
         _localLevelName = '';
         _localLevelDistrict = '';
         _census = null;
-        _status = 'Tap a province to start.';
+        _status = 'Tap a province to start. '
+            'Long-press anywhere to identify a location.';
       });
       _requestFit(
           LatLngBounds(const LatLng(26.3, 80.0), const LatLng(30.5, 88.3)));
@@ -524,6 +526,44 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
+  /// Long-press: drop a pin at the given point and identify the full
+  /// admin hierarchy (province → district → municipality → ward) there.
+  Future<void> _pinAndIdentify(LatLng point) async {
+    if (_locating) return;
+    setState(() {
+      _pinPoint = point;
+      _locating = true;
+      _status = AppLocalizations.of(context)!.identifyingLocation;
+    });
+    try {
+      final result = await _lookup.identify(point);
+      if (!mounted) return;
+      setState(() {
+        _locating = false;
+        _status = '';
+        _highlightPolygons = _polygonsFor(result?.wardGeometry);
+      });
+      if (result == null) {
+        _showMessage('No ward found at this point (outside Nepal?).');
+        return;
+      }
+      final census = await CensusService(_data).fetchFor(
+        province: result.province,
+        district: result.district,
+        municipality: result.municipality,
+      );
+      if (!mounted) return;
+      _showResult(result, census: census);
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _locating = false;
+        _status = '';
+      });
+      _showMessage('Lookup failed: $e');
+    }
+  }
+
   Future<void> _findMyWard() async {
     if (_locating) return;
     setState(() {
@@ -577,12 +617,13 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  void _showResult(WardResult result) {
+  void _showResult(WardResult result, {CensusData? census}) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      builder: (ctx) => _ResultSheet(result: result, census: _census),
+      builder: (ctx) =>
+          _ResultSheet(result: result, census: census ?? _census),
     );
   }
 
@@ -697,6 +738,7 @@ class _MapScreenState extends State<MapScreen> {
               minZoom: 5,
               maxZoom: 18,
               onTap: (tapPosition, point) => _onMapTap(point),
+              onLongPress: (tapPosition, point) => _pinAndIdentify(point),
               onMapReady: () {
                 setState(() => _mapReady = true);
                 final pending = _pendingFit;
@@ -724,6 +766,30 @@ class _MapScreenState extends State<MapScreen> {
                     PolygonLayer(polygons: _levelPolygons),
                     PolygonLayer(polygons: _highlightPolygons),
                     MarkerLayer(markers: _labels()),
+                    if (_pinPoint != null)
+                      MarkerLayer(
+                        markers: [
+                          Marker(
+                            point: _pinPoint!,
+                            width: 44,
+                            height: 44,
+                            alignment: Alignment.topCenter,
+                            child: const IgnorePointer(
+                              child: Icon(
+                                Icons.location_pin,
+                                size: 44,
+                                color: Color(0xFFD32F2F),
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.black54,
+                                    blurRadius: 4,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),

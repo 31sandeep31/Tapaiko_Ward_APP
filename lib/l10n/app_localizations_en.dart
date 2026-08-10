@@ -36,6 +36,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get findMyWard => 'Find my ward';
 
   @override
+  String get identifyingLocation => 'Identifying this location…';
+
+  @override
+  String get longPressHint =>
+      'Tap to browse. Long-press anywhere to identify the ward, municipality, district and province.';
+
+  @override
   String get goBack => 'Go back';
 
   @override
