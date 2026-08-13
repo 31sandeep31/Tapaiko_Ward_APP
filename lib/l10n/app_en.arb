@@ -33,5 +33,6 @@
   "provinceLabel": "Province",
   "couldNotLoadMap": "Could not load map data",
   "retry": "Retry",
-  "noWardBoundaries": "No ward boundaries loaded."
+  "noWardBoundaries": "No ward boundaries loaded.",
+  "currentLocationInfo": "You are currently in Ward {wardNo} of {municipality}, {district}."
 }
