@@ -243,6 +243,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No ward boundaries loaded.'**
   String get noWardBoundaries;
+
+  /// Message shown when location is detected on startup
+  ///
+  /// In en, this message translates to:
+  /// **'You are currently in Ward {wardNo} of {municipality}, {district}.'**
+  String currentLocationInfo(String wardNo, String municipality, String district);
 }
 
 class _AppLocalizationsDelegate

@@ -85,4 +85,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noWardBoundaries => 'No ward boundaries loaded.';
+
+  @override
+  String currentLocationInfo(String wardNo, String municipality, String district) {
+    return 'You are currently in Ward $wardNo of $municipality, $district.';
+  }
 }

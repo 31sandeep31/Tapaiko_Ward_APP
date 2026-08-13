@@ -60,6 +60,34 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     super.initState();
     _loadProvinces();
+    // Request location and show ward info after the first frame is rendered
+    WidgetsBinding.instance.addPostFrameCallback((_) => _requestLocationOnStart());
+  }
+
+  Future<void> _requestLocationOnStart() async {
+    try {
+      var permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        return;
+      }
+      final position = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 20),
+        ),
+      );
+      if (!mounted) return;
+      final point = LatLng(position.latitude, position.longitude);
+      final result = await _lookup.identify(point);
+      if (!mounted || result == null) return;
+      _showResult(result);
+    } catch (e) {
+      // Silently ignore location errors on startup
+    }
   }
 
   Future<void> _loadProvinces() async {
@@ -1089,6 +1117,14 @@ class _ResultSheet extends StatelessWidget {
                 value: result.district),
             _InfoRow(icon: Icons.flag, label: l10n.provinceLabel,
                 value: result.province),
+            const SizedBox(height: 8),
+            Text(
+              l10n.currentLocationInfo(result.wardNo, result.municipality, result.district),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
           ],
         ),
       ),
