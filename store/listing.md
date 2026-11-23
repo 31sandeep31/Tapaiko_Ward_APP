@@ -85,7 +85,7 @@ Tapaiko Ward is an independent app. It is not affiliated with, endorsed by, or r
 - Category: **Maps & Navigation** (alt: Travel & Local)
 - Tags: maps, Nepal, local government
 - Contact email: `ward@sandeepkafle.com.np`. Website (optional): `https://maps.sandeepkafle.com.np`.
-- Privacy policy URL: host `store/privacy_policy.html` (e.g. `https://maps.sandeepkafle.com.np/privacy`).
+- Privacy policy URL: `https://maps.sandeepkafle.com.np/privacy` (source: `store/privacy_policy.html`; published from the Nepal_Administritative_Map repo at `privacy/index.html`).
 
 ---
 
@@ -93,7 +93,7 @@ Tapaiko Ward is an independent app. It is not affiliated with, endorsed by, or r
 
 | Section | Answer |
 |---|---|
-| Privacy policy | URL where `store/privacy_policy.html` is hosted |
+| Privacy policy | `https://maps.sandeepkafle.com.np/privacy` |
 | Ads | **No**, the app does not contain ads |
 | App access | All functionality available without special access |
 | Content rating (IARC) | Reference/utility app; no violence, sex, gambling, user content or chat → expected **Everyone / 3+** |
