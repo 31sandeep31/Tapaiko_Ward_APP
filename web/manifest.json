@@ -1,11 +1,11 @@
 {
-    "name": "TAPAIKO WARD",
-    "short_name": "TAPAIKO WARD",
+    "name": "Tapaiko Ward",
+    "short_name": "Tapaiko Ward",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#003893",
     "theme_color": "#003893",
-    "description": "TAPAIKO WARD — identify your ward, municipality and district in Nepal.",
+    "description": "Tapaiko Ward — find your ward, municipality and district in Nepal.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
