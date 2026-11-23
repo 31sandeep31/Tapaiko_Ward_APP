@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app_dependencies.dart';
@@ -38,6 +39,20 @@ class _TapaikoWardAppState extends State<TapaikoWardApp> {
         theme: buildTheme(Brightness.light),
         darkTheme: buildTheme(Brightness.dark),
         themeMode: settings.themeMode,
+        // Transparent system bars everywhere (edge-to-edge); screens with
+        // their own needs (the map) override this.
+        builder: (context, child) {
+          final dark = Theme.of(context).brightness == Brightness.dark;
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: (dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark)
+                .copyWith(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: Colors.transparent,
+              systemNavigationBarContrastEnforced: false,
+            ),
+            child: child!,
+          );
+        },
         home: AnimatedSwitcher(
           duration: Motion.long,
           child: _showOnboarding

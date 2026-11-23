@@ -81,5 +81,7 @@ Future<void> openDirections(LatLng p) async {
 }
 
 Future<void> openLink(String url) async {
-  await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  try {
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  } catch (_) {}
 }

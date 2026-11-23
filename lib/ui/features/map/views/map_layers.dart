@@ -15,6 +15,7 @@ class AreaLabel {
     required this.bounds,
     required this.color,
     required this.compact,
+    this.alwaysShow = false,
   });
 
   final String id;
@@ -25,6 +26,9 @@ class AreaLabel {
 
   /// Ward numbers use a compact badge.
   final bool compact;
+
+  /// Show even when wider than its area (province names).
+  final bool alwaysShow;
   Size? _size;
 }
 
@@ -60,6 +64,7 @@ List<AreaLabel> buildAreaLabels(
   List<MapArea> areas, {
   required String Function(MapArea) textOf,
   required bool compact,
+  bool alwaysShow = false,
 }) {
   final labels = <AreaLabel>[];
   for (final area in areas) {
@@ -76,6 +81,7 @@ List<AreaLabel> buildAreaLabels(
       bounds: bounds,
       color: colorForArea(area),
       compact: compact,
+      alwaysShow: alwaysShow,
     ));
   }
   // Larger areas win label collisions.
@@ -159,7 +165,7 @@ class AreaLabelLayer extends StatelessWidget {
       final tooSmall = label.compact
           ? areaWidth < size.width * 0.9 || areaHeight < size.height * 1.2
           : areaWidth < size.width * 0.45;
-      if (!selected && tooSmall) continue;
+      if (!selected && !label.alwaysShow && tooSmall) continue;
 
       final rect = Rect.fromCenter(
               center: center, width: size.width, height: size.height)

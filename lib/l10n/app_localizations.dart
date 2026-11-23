@@ -167,7 +167,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchPlaceholder.
   ///
   /// In en, this message translates to:
-  /// **'Search municipality or district'**
+  /// **'Search places'**
   String get searchPlaceholder;
 
   /// No description provided for @settings.
@@ -812,6 +812,12 @@ abstract class AppLocalizations {
   /// **'Rate on Google Play'**
   String get rateApp;
 
+  /// No description provided for @sendFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get sendFeedback;
+
   /// No description provided for @shareApp.
   ///
   /// In en, this message translates to:
@@ -971,7 +977,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyContactBody.
   ///
   /// In en, this message translates to:
-  /// **'Questions about privacy? Contact the developer using the email address on the app\'s Google Play listing.'**
+  /// **'Questions about privacy? Email ward@sandeepkafle.com.np.'**
   String get privacyContactBody;
 }
 

@@ -162,6 +162,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: () => openLink(AppDependencies.playStoreUrl),
             ),
             ListTile(
+              leading: const Icon(Icons.mail_outline_rounded),
+              title: Text(l10n.sendFeedback),
+              subtitle: const Text(AppDependencies.contactEmail),
+              onTap: () => openLink(
+                  'mailto:${AppDependencies.contactEmail}?subject=Tapaiko%20Ward%20feedback'),
+            ),
+            ListTile(
               leading: const Icon(Icons.share_outlined),
               title: Text(l10n.shareApp),
               onTap: () => SharePlus.instance.share(ShareParams(

@@ -235,6 +235,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       _areaLabels = buildAreaLabels(
         vm.areas,
         compact: isWard,
+        alwaysShow: vm.level == AdminLevel.country,
         textOf: (a) {
           if (isWard) return context.digits(a.label);
           if (vm.level == AdminLevel.country) {
@@ -378,7 +379,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                     : SystemUiOverlayStyle.dark)
                 .copyWith(
                     statusBarColor: Colors.transparent,
-                    systemNavigationBarColor: Colors.transparent),
+                    systemNavigationBarColor:
+                        _wide ? Colors.transparent : scheme.surfaceContainerLow,
+                    systemNavigationBarIconBrightness:
+                        theme.brightness == Brightness.dark
+                            ? Brightness.light
+                            : Brightness.dark,
+                    systemNavigationBarContrastEnforced: false),
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               body: Stack(
@@ -527,6 +534,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       options: MapOptions(
         initialCenter: nepalCenter,
         initialZoom: 6.6,
+        // Frame Nepal for this screen size, above the bottom panel.
+        initialCameraFit: CameraFit.bounds(
+          bounds: nepalBounds,
+          padding: _cameraPadding(),
+        ),
         minZoom: 5,
         maxZoom: 18.5,
         backgroundColor: darkTiles ? const Color(0xFF1E1F22) : const Color(0xFFE8EAED),
@@ -549,8 +561,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           _mapReady = true;
           final pending = _pendingCamera;
           _pendingCamera = null;
-          // Frame Nepal for this screen size on first load.
-          _applyCamera(pending ?? CameraRequest.bounds(nepalBounds));
+          if (pending != null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) _applyCamera(pending);
+            });
+          }
         },
       ),
       children: [
@@ -565,7 +580,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         if (_focusPolygons.isNotEmpty)
           PolygonLayer(
             polygons: _focusPolygons,
-            invertedFill: Colors.black.withValues(alpha: darkTiles ? 0.35 : 0.14),
+            invertedFill: Colors.black.withValues(alpha: darkTiles ? 0.2 : 0.14),
             polygonLabels: false,
           ),
         PolygonLayer(polygons: _areaPolygons, polygonLabels: false),

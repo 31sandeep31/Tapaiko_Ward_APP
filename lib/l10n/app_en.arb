@@ -13,7 +13,7 @@
   "notNow": "Not now",
   "disclaimerShort": "Independent app. Not affiliated with the Government of Nepal. Boundaries are for reference only.",
 
-  "searchPlaceholder": "Search municipality or district",
+  "searchPlaceholder": "Search places",
   "settings": "Settings",
   "mapStyle": "Map style",
   "myLocation": "My location",
@@ -140,6 +140,7 @@
   "dataSources": "Data sources",
   "openSourceLicenses": "Open-source licences",
   "rateApp": "Rate on Google Play",
+  "sendFeedback": "Send feedback",
   "shareApp": "Share the app",
   "shareAppText": "Find your ward anywhere in Nepal with Tapaiko Ward: {link}",
   "@shareAppText": {"placeholders": {"link": {"type": "String"}}},
@@ -170,5 +171,5 @@
   "privacyChangesTitle": "Changes",
   "privacyChangesBody": "If this policy changes, the updated version will be published in the app and on the store listing.",
   "privacyContactTitle": "Contact",
-  "privacyContactBody": "Questions about privacy? Contact the developer using the email address on the app's Google Play listing."
+  "privacyContactBody": "Questions about privacy? Email ward@sandeepkafle.com.np."
 }

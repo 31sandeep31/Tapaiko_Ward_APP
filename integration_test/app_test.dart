@@ -16,7 +16,7 @@ void main() {
     await tester.tap(find.text('Not now'));
     await tester.pumpAndSettle(const Duration(seconds: 2));
 
-    expect(find.text('Search municipality or district'), findsOneWidget);
+    expect(find.text('Search places'), findsOneWidget);
     expect(find.text('Find your ward'), findsOneWidget);
     expect(find.byIcon(Icons.my_location_rounded), findsWidgets);
   });

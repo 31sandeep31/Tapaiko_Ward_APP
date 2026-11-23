@@ -72,14 +72,19 @@ Tapaiko Ward is an independent app. It is not affiliated with, endorsed by, or r
 ## Graphics
 - App icon 512×512: `store/icon-512.png`
 - Feature graphic 1024×500: `store/feature-graphic-1024x500.png`
-- Phone screenshots (2–8, 1080×1920 or similar): take on a device or emulator:
-  1. Explore panel with provinces, 2. Ward result with population,
-  3. Search with "Kathmandu 5", 4. Satellite map style, 5. Nepali UI.
+- Phone screenshots (1080×2160, upload in this order): `store/screenshots/`
+  1. `01-find-your-ward.png` – home / explore
+  2. `02-ward-result.png` – Kathmandu ward 5 with population
+  3. `03-search-ward-number.png` – search "Kathmandu 5"
+  4. `04-browse-province.png` – Bagmati Province districts
+  5. `05-satellite.png` – satellite map style
+  6. `06-nepali.png` – Nepali UI (Pokhara ward 8)
+  7. `07-dark-theme.png` – dark theme, Pokhara wards
 
 ## Category & contact
 - Category: **Maps & Navigation** (alt: Travel & Local)
 - Tags: maps, Nepal, local government
-- Contact email: required (your developer email). Website optional.
+- Contact email: `ward@sandeepkafle.com.np`. Website (optional): `https://maps.sandeepkafle.com.np`.
 - Privacy policy URL: host `store/privacy_policy.html` (e.g. `https://maps.sandeepkafle.com.np/privacy`).
 
 ---

@@ -47,7 +47,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Independent app. Not affiliated with the Government of Nepal. Boundaries are for reference only.';
 
   @override
-  String get searchPlaceholder => 'Search municipality or district';
+  String get searchPlaceholder => 'Search places';
 
   @override
   String get settings => 'Settings';
@@ -440,6 +440,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rateApp => 'Rate on Google Play';
 
   @override
+  String get sendFeedback => 'Send feedback';
+
+  @override
   String get shareApp => 'Share the app';
 
   @override
@@ -536,5 +539,5 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyContactBody =>
-      'Questions about privacy? Contact the developer using the email address on the app\'s Google Play listing.';
+      'Questions about privacy? Email ward@sandeepkafle.com.np.';
 }

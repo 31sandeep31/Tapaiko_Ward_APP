@@ -13,7 +13,7 @@
   "notNow": "अहिले होइन",
   "disclaimerShort": "स्वतन्त्र एप। नेपाल सरकारसँग सम्बद्ध छैन। सीमाहरू सन्दर्भका लागि मात्र हुन्।",
 
-  "searchPlaceholder": "पालिका वा जिल्ला खोज्नुहोस्",
+  "searchPlaceholder": "ठाउँ खोज्नुहोस्",
   "settings": "सेटिङ",
   "mapStyle": "नक्साको शैली",
   "myLocation": "मेरो स्थान",
@@ -140,6 +140,7 @@
   "dataSources": "डाटाका स्रोतहरू",
   "openSourceLicenses": "खुला स्रोत इजाजतपत्र",
   "rateApp": "गुगल प्लेमा रेटिङ दिनुहोस्",
+  "sendFeedback": "प्रतिक्रिया पठाउनुहोस्",
   "shareApp": "एप सेयर गर्नुहोस्",
   "shareAppText": "तपाईंको वडा एपबाट नेपालको जुनसुकै ठाउँको वडा थाहा पाउनुहोस्: {link}",
   "@shareAppText": {"placeholders": {"link": {"type": "String"}}},
@@ -170,5 +171,5 @@
   "privacyChangesTitle": "परिवर्तनहरू",
   "privacyChangesBody": "यो नीति परिवर्तन भएमा, अद्यावधिक संस्करण एपमा र स्टोर पेजमा प्रकाशित गरिनेछ।",
   "privacyContactTitle": "सम्पर्क",
-  "privacyContactBody": "गोपनीयताबारे प्रश्न छ? एपको गुगल प्ले पेजमा रहेको इमेल ठेगानामा विकासकर्तालाई सम्पर्क गर्नुहोस्।"
+  "privacyContactBody": "गोपनीयताबारे प्रश्न छ? ward@sandeepkafle.com.np मा इमेल गर्नुहोस्।"
 }

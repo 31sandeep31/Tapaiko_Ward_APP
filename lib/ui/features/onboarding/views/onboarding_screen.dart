@@ -70,11 +70,11 @@ class OnboardingScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: Space.xl),
                     children: [
                       const SizedBox(height: Space.lg),
-                      const Center(child: AppLogo(size: 96)),
-                      const SizedBox(height: Space.xl),
+                      const Center(child: AppLogo(size: 80)),
+                      const SizedBox(height: Space.lg),
                       Text(l10n.onboardingTitle,
                           textAlign: TextAlign.center,
-                          style: theme.textTheme.headlineMedium
+                          style: theme.textTheme.headlineSmall
                               ?.copyWith(fontWeight: FontWeight.w800)),
                       const SizedBox(height: Space.md),
                       Text(l10n.onboardingBody,
@@ -85,36 +85,6 @@ class OnboardingScreen extends StatelessWidget {
                       _Point(icon: Icons.touch_app_outlined, text: l10n.onboardingPointTap),
                       _Point(icon: Icons.search_rounded, text: l10n.onboardingPointSearch),
                       _Point(icon: Icons.offline_pin_outlined, text: l10n.onboardingPointOffline),
-                      const SizedBox(height: Space.xl),
-                      Card(
-                        color: scheme.secondaryContainer,
-                        child: Padding(
-                          padding: const EdgeInsets.all(Space.lg),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(Icons.my_location_rounded,
-                                  color: scheme.onSecondaryContainer),
-                              const SizedBox(width: Space.md),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(l10n.locationDisclosureTitle,
-                                        style: theme.textTheme.titleMedium?.copyWith(
-                                            color: scheme.onSecondaryContainer,
-                                            fontWeight: FontWeight.w700)),
-                                    const SizedBox(height: Space.xs),
-                                    Text(l10n.locationDisclosureBody,
-                                        style: theme.textTheme.bodyMedium?.copyWith(
-                                            color: scheme.onSecondaryContainer)),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
                       const SizedBox(height: Space.lg),
                       Text(l10n.disclaimerShort,
                           textAlign: TextAlign.center,
@@ -125,10 +95,15 @@ class OnboardingScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(Space.xl, Space.sm, Space.xl, Space.lg),
+                  padding: const EdgeInsets.fromLTRB(Space.lg, Space.sm, Space.lg, Space.md),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      _Disclosure(
+                        title: l10n.locationDisclosureTitle,
+                        body: l10n.locationDisclosureBody,
+                      ),
+                      const SizedBox(height: Space.md),
                       FilledButton.icon(
                         onPressed: _allow,
                         style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
@@ -171,6 +146,48 @@ class _Point extends StatelessWidget {
           const SizedBox(width: Space.lg),
           Expanded(child: Text(text, style: Theme.of(context).textTheme.bodyLarge)),
         ],
+      ),
+    );
+  }
+}
+
+/// Location "prominent disclosure", always visible next to the Allow button.
+class _Disclosure extends StatelessWidget {
+  const _Disclosure({required this.title, required this.body});
+
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Card(
+      color: scheme.secondaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.all(Space.md),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.my_location_rounded, color: scheme.onSecondaryContainer),
+            const SizedBox(width: Space.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                          color: scheme.onSecondaryContainer,
+                          fontWeight: FontWeight.w700)),
+                  const SizedBox(height: 2),
+                  Text(body,
+                      style: theme.textTheme.bodySmall
+                          ?.copyWith(color: scheme.onSecondaryContainer)),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

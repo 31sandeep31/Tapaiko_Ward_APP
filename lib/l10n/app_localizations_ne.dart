@@ -48,7 +48,7 @@ class AppLocalizationsNe extends AppLocalizations {
       'स्वतन्त्र एप। नेपाल सरकारसँग सम्बद्ध छैन। सीमाहरू सन्दर्भका लागि मात्र हुन्।';
 
   @override
-  String get searchPlaceholder => 'पालिका वा जिल्ला खोज्नुहोस्';
+  String get searchPlaceholder => 'ठाउँ खोज्नुहोस्';
 
   @override
   String get settings => 'सेटिङ';
@@ -439,6 +439,9 @@ class AppLocalizationsNe extends AppLocalizations {
   String get rateApp => 'गुगल प्लेमा रेटिङ दिनुहोस्';
 
   @override
+  String get sendFeedback => 'प्रतिक्रिया पठाउनुहोस्';
+
+  @override
   String get shareApp => 'एप सेयर गर्नुहोस्';
 
   @override
@@ -535,5 +538,5 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get privacyContactBody =>
-      'गोपनीयताबारे प्रश्न छ? एपको गुगल प्ले पेजमा रहेको इमेल ठेगानामा विकासकर्तालाई सम्पर्क गर्नुहोस्।';
+      'गोपनीयताबारे प्रश्न छ? ward@sandeepkafle.com.np मा इमेल गर्नुहोस्।';
 }

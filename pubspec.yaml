@@ -39,3 +39,4 @@ flutter:
   assets:
     - assets/geo/
     - assets/data/
+    - assets/brand/
