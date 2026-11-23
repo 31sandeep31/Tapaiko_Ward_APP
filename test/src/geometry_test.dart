@@ -1,7 +1,7 @@
 import 'package:checks/checks.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tapaiko_ward/src/geometry.dart';
+import 'package:tapaiko_ward/domain/geometry.dart';
 
 const squareRing = [
   [80.0, 26.0],

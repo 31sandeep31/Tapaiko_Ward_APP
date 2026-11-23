@@ -104,3 +104,8 @@ windows/Flutter/ephemeral
 *.un~
 
 ```
+# Keep the app lockfile for reproducible builds
+!pubspec.lock
+
+# Local preview config
+.claude/

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tapaiko_ward/src/data_service.dart';
+import 'package:tapaiko_ward/data/data_service.dart';
 
 import '../helpers/fake_data_cache.dart';
 
