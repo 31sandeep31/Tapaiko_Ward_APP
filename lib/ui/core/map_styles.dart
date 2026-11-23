@@ -9,6 +9,7 @@ class TileSource {
     required this.urlTemplate,
     required this.attribution,
     required this.attributionUrl,
+    this.labelsUrlTemplate,
     this.subdomains = const [],
     this.maxNativeZoom = 19,
     this.retina = false,
@@ -16,6 +17,9 @@ class TileSource {
   });
 
   final String urlTemplate;
+
+  /// Optional transparent label layer drawn above the boundary overlays.
+  final String? labelsUrlTemplate;
   final String attribution;
   final String attributionUrl;
   final List<String> subdomains;
@@ -34,23 +38,31 @@ const _osm = TileSource(
   attributionUrl: 'https://www.openstreetmap.org/copyright',
 );
 
-const _cartoLight = TileSource(
+// Esri gray canvas: key-free light/dark base maps with a separate label
+// layer. (CARTO basemaps now require an API key.)
+const _esriCredit = 'Esri, HERE, Garmin, OpenStreetMap contributors';
+const _esriTerms =
+    'https://www.esri.com/en-us/legal/terms/full-master-agreement';
+
+const _grayLight = TileSource(
   urlTemplate:
-      'https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png',
-  subdomains: ['a', 'b', 'c', 'd'],
-  retina: true,
-  attribution: 'OpenStreetMap contributors, © CARTO',
-  attributionUrl: 'https://carto.com/attributions',
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+  labelsUrlTemplate:
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+  maxNativeZoom: 16,
+  attribution: _esriCredit,
+  attributionUrl: _esriTerms,
 );
 
-const _cartoDark = TileSource(
+const _grayDark = TileSource(
   urlTemplate:
-      'https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png',
-  subdomains: ['a', 'b', 'c', 'd'],
-  retina: true,
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+  labelsUrlTemplate:
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+  maxNativeZoom: 16,
   isDark: true,
-  attribution: 'OpenStreetMap contributors, © CARTO',
-  attributionUrl: 'https://carto.com/attributions',
+  attribution: _esriCredit,
+  attributionUrl: _esriTerms,
 );
 
 const _topo = TileSource(
@@ -71,10 +83,10 @@ const _satellite = TileSource(
 
 TileSource tileSourceFor(MapStyle style, Brightness brightness) =>
     switch (style) {
-      MapStyle.auto => brightness == Brightness.dark ? _cartoDark : _osm,
+      MapStyle.auto => brightness == Brightness.dark ? _grayDark : _osm,
       MapStyle.streets => _osm,
-      MapStyle.light => _cartoLight,
-      MapStyle.dark => _cartoDark,
+      MapStyle.light => _grayLight,
+      MapStyle.dark => _grayDark,
       MapStyle.terrain => _topo,
       MapStyle.satellite => _satellite,
     };

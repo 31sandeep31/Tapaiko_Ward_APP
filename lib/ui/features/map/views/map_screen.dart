@@ -584,6 +584,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             polygonLabels: false,
           ),
         PolygonLayer(polygons: _areaPolygons, polygonLabels: false),
+        if (source.labelsUrlTemplate != null)
+          TileLayer(
+            key: ValueKey(source.labelsUrlTemplate),
+            urlTemplate: source.labelsUrlTemplate,
+            maxNativeZoom: source.maxNativeZoom,
+            userAgentPackageName: 'com.tapaiko.tapaiko_ward',
+          ),
         if (_wardPolygons.isNotEmpty)
           PolygonLayer(polygons: _wardPolygons, polygonLabels: false),
         if (vm.userLocation != null)

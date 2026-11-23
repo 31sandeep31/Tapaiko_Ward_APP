@@ -32,9 +32,9 @@ PRIVATE BY DESIGN
 Your location is used only on your phone. No account, no ads, no tracking.
 
 DATA SOURCES
-• Administrative boundaries: https://maps.sandeepkafle.com.np
+• Administrative boundaries: Survey Department (Napi Bibhag), Government of Nepal — https://dos.gov.np (served via https://maps.sandeepkafle.com.np)
 • Population: National Population and Housing Census 2021, National Statistics Office, Nepal — https://censusnepal.cbs.gov.np
-• Base maps: © OpenStreetMap contributors (https://www.openstreetmap.org/copyright), CARTO, OpenTopoMap, Esri
+• Base maps: © OpenStreetMap contributors (https://www.openstreetmap.org/copyright), OpenTopoMap, Esri
 
 DISCLAIMER
 Tapaiko Ward is an independent app. It is not affiliated with, endorsed by, or representing the Government of Nepal or any government entity. Boundaries and population figures come from public sources and are for reference only; they are not an official survey or legal record.
@@ -61,9 +61,9 @@ Tapaiko Ward is an independent app. It is not affiliated with, endorsed by, or r
 तपाईंको स्थान फोनभित्र मात्र प्रयोग हुन्छ। खाता, विज्ञापन वा ट्र्याकिङ छैन।
 
 डाटाका स्रोत
-• प्रशासनिक सीमा: https://maps.sandeepkafle.com.np
+• प्रशासनिक सीमा: नापी विभाग, नेपाल सरकार — https://dos.gov.np
 • जनसंख्या: राष्ट्रिय जनगणना २०७८, राष्ट्रिय तथ्यांक कार्यालय — https://censusnepal.cbs.gov.np
-• आधार नक्सा: © OpenStreetMap योगदानकर्ताहरू, CARTO, OpenTopoMap, Esri
+• आधार नक्सा: © OpenStreetMap योगदानकर्ताहरू, OpenTopoMap, Esri
 
 अस्वीकरण
 तपाईंको वडा एक स्वतन्त्र एप हो। यो नेपाल सरकार वा कुनै सरकारी निकायसँग सम्बद्ध छैन। सीमा र जनसंख्याका विवरण सन्दर्भका लागि मात्र हुन्।

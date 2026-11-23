@@ -467,7 +467,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sourceBoundariesDesc =>
-      'Province, district, local level and ward boundaries of Nepal, served from maps.sandeepkafle.com.np';
+      'Province, district, local level and ward boundaries from the Survey Department (Napi Bibhag), Government of Nepal. Served via maps.sandeepkafle.com.np';
 
   @override
   String get sourceCensus => 'Population';
@@ -481,7 +481,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sourceMapsDesc =>
-      '© OpenStreetMap contributors, CARTO, OpenTopoMap, Esri';
+      '© OpenStreetMap contributors, OpenTopoMap, Esri';
 
   @override
   String privacyUpdated(String date) {
@@ -504,7 +504,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyNetworkBody =>
-      'To show maps and boundaries, the app downloads map tiles from the map provider you choose (OpenStreetMap, CARTO, OpenTopoMap or Esri), boundary files from maps.sandeepkafle.com.np, and population figures from the National Statistics Office census service (censusapi.cbs.gov.np). Like any website, these servers can see your IP address and which map area or municipality was requested. They do not receive your GPS location.';
+      'To show maps and boundaries, the app downloads map tiles from the map provider you choose (OpenStreetMap, OpenTopoMap or Esri), Survey Department boundary files from maps.sandeepkafle.com.np, and population figures from the National Statistics Office census service (censusapi.cbs.gov.np). Like any website, these servers can see your IP address and which map area or municipality was requested. They do not receive your GPS location.';
 
   @override
   String get privacyStorageTitle => 'Data stored on your phone';

@@ -64,7 +64,7 @@ class AboutScreen extends StatelessWidget {
             icon: Icons.map_outlined,
             title: l10n.sourceBoundaries,
             body: l10n.sourceBoundariesDesc,
-            url: 'https://maps.sandeepkafle.com.np',
+            url: 'https://dos.gov.np',
           ),
           _Source(
             icon: Icons.groups_outlined,

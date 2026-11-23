@@ -466,7 +466,7 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get sourceBoundariesDesc =>
-      'नेपालका प्रदेश, जिल्ला, स्थानीय तह र वडाका सीमाहरू, maps.sandeepkafle.com.np बाट';
+      'प्रदेश, जिल्ला, स्थानीय तह र वडाका सीमाहरू नापी विभाग, नेपाल सरकारबाट। maps.sandeepkafle.com.np मार्फत उपलब्ध';
 
   @override
   String get sourceCensus => 'जनसंख्या';
@@ -480,7 +480,7 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get sourceMapsDesc =>
-      '© OpenStreetMap योगदानकर्ताहरू, CARTO, OpenTopoMap, Esri';
+      '© OpenStreetMap योगदानकर्ताहरू, OpenTopoMap, Esri';
 
   @override
   String privacyUpdated(String date) {
@@ -503,7 +503,7 @@ class AppLocalizationsNe extends AppLocalizations {
 
   @override
   String get privacyNetworkBody =>
-      'नक्सा र सीमाहरू देखाउन एपले तपाईंले छानेको नक्सा प्रदायक (OpenStreetMap, CARTO, OpenTopoMap वा Esri) बाट नक्साका टाइलहरू, maps.sandeepkafle.com.np बाट सीमाका फाइलहरू, र राष्ट्रिय तथ्यांक कार्यालयको जनगणना सेवा (censusapi.cbs.gov.np) बाट जनसंख्याका विवरणहरू डाउनलोड गर्छ। जुनसुकै वेबसाइटजस्तै, यी सर्भरहरूले तपाईंको IP ठेगाना र कुन नक्सा क्षेत्र वा पालिका मागिएको हो भन्ने देख्न सक्छन्। उनीहरूले तपाईंको GPS स्थान पाउँदैनन्।';
+      'नक्सा र सीमाहरू देखाउन एपले तपाईंले छानेको नक्सा प्रदायक (OpenStreetMap, OpenTopoMap वा Esri) बाट नक्साका टाइलहरू, maps.sandeepkafle.com.np बाट नापी विभागका सीमाका फाइलहरू, र राष्ट्रिय तथ्यांक कार्यालयको जनगणना सेवा (censusapi.cbs.gov.np) बाट जनसंख्याका विवरणहरू डाउनलोड गर्छ। जुनसुकै वेबसाइटजस्तै, यी सर्भरहरूले तपाईंको IP ठेगाना र कुन नक्सा क्षेत्र वा पालिका मागिएको हो भन्ने देख्न सक्छन्। उनीहरूले तपाईंको GPS स्थान पाउँदैनन्।';
 
   @override
   String get privacyStorageTitle => 'फोनमा सुरक्षित हुने डाटा';

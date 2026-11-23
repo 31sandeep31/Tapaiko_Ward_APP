@@ -38,7 +38,8 @@ tool/        build_boundary_assets.py, build_icons.py
 
 ## Data
 
-Boundary files come from `https://maps.sandeepkafle.com.np/data/`
+Boundaries are from the Survey Department (Napi Bibhag), Government of Nepal,
+served from `https://maps.sandeepkafle.com.np/data/`
 (`locallevels/{district}.json`, `wards/{district}_{locallevel}.json`).
 Identification uses the bundled district outlines to pick candidates, then
 the full-detail municipality and ward files for exact containment, so the
